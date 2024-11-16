@@ -1,17 +1,17 @@
 package tests;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.testng.annotations.Test;
-import java.util.List;
-import static org.testng.Assert.*;
 
-public class CartTest extends BaseTest{
+import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+import static org.testng.Assert.assertEquals;
+
+public class CartTest extends BaseTest {
 
 
     String productNameOne = "Sauce Labs Bike Light";
     String productNameTwo = "Sauce Labs Fleece Jacket";
     String user = "standard_user";
     String password = "secret_sauce";
+    SoftAssert softAssert = new SoftAssert();
 
     @Test
     public void checkAddOneProductToCart() {
@@ -21,8 +21,8 @@ public class CartTest extends BaseTest{
         productsPage.clickAddToCartButton(productNameOne);
         productsPage.clickShoppingCart();
 
-        String product = driver.findElement(By.cssSelector(".inventory_item_name")).getText();
-        assertEquals(product, "Sauce Labs Bike Light","Expected text - " + productNameOne);
+        String product = cartPage.getProductName(".inventory_item_name");
+        assertEquals(product, productNameOne, "Incorrect item name");
     }
 
     @Test
@@ -34,41 +34,51 @@ public class CartTest extends BaseTest{
         productsPage.clickAddToCartButton(productNameTwo);
         productsPage.clickShoppingCart();
 
-        String firstProductName = driver.findElement(By.cssSelector("#item_0_title_link")).getText();
-        String secondProductName = driver.findElement(By.cssSelector("#item_5_title_link")).getText();
+        String firstProductName = cartPage.getProductName("#item_0_title_link");
+        String secondProductName = cartPage.getProductName("#item_5_title_link");
 
-        String firstProductPrice = driver.findElement(By.xpath(
-                "//div[text() = 'Sauce Labs Bike Light']/ancestor::div[@class = 'cart_item']" +
-                        "//div[@data-test = 'inventory-item-price']")).getText();
-
-        String secondProductPrice = driver.findElement(By.xpath(
-                "//div[text()='Sauce Labs Fleece Jacket']" +
-                        "/ancestor::div[@class='cart_item']//div[@class='inventory_item_price']")).getText();
-        assertEquals(firstProductName,
+        String firstProductPrice = cartPage.getProductPrice(
+                "//div[text() = " +
+                        "'Sauce Labs Bike Light']/ancestor::div[@class = 'cart_item']" +
+                        "//div[@data-test = 'inventory-item-price']");
+        String secondProductPrice = cartPage.getProductPrice(
+                "//div[text()=" +
+                        "'Sauce Labs Fleece Jacket']" +
+                        "/ancestor::div[@class='cart_item']//div[@class='inventory_item_price']");
+        softAssert.assertEquals(
+                firstProductName,
                 productNameOne,
-                "Expected text - " + productNameOne);
-        assertEquals(firstProductPrice,"$9.99","Expected price - $9.99");
-        assertEquals(secondProductName,
+                "Incorrect product name");
+        softAssert.assertEquals(
+                firstProductPrice,
+                "$9.99",
+                "Incorrect product price");
+        softAssert.assertEquals(
+                secondProductName,
                 productNameTwo,
-                "Expected text - " + productNameTwo);
-        assertEquals(secondProductPrice,"$49.99");
+                "Incorrect product name");
+        softAssert.assertEquals(
+                secondProductPrice,
+                "$Incorrect product price");
     }
 
     @Test
-    public void checkRemoveProductFromCart(){
+    public void checkRemoveProductFromCart() {
         loginPage.open();
-        loginPage.login(user,password);
+        loginPage.login(user, password);
 
         productsPage.clickAddToCartButton(productNameOne);
         productsPage.clickShoppingCart();
 
         cartPage.clickButtonRemove(productNameOne);
-        List<WebElement> webElementList = driver.findElements(By.cssSelector(".cart_quantity"));
-        assertEquals(webElementList.size(),0,"If expected size > 0, cart isnt empty");
+
+        assertEquals(cartPage.getWebElementsListOfCart().size(),
+                0,
+                "If expected size > 0, cart isnt empty");
     }
 
     @Test
-    public void checkButtonContinueShopping(){
+    public void checkButtonContinueShopping() {
         /*
         Открыть главную страницу
         Ввести логин и пароль
@@ -82,9 +92,7 @@ public class CartTest extends BaseTest{
         productsPage.clickShoppingCart();
         cartPage.clickContinueShoppingButton();
 
-        String firstProductName = driver.findElement(By.cssSelector("#item_0_title_link")).getText();
-        assertEquals(firstProductName,
-                productNameOne,
-                "Expected text - " + productNameOne);
+        String firstProductName = cartPage.getProductName("#item_0_title_link");
+        assertEquals(firstProductName, productNameOne, "Incorrect product name");
     }
 }

@@ -1,14 +1,18 @@
 package tests;
+
 import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 
-public class LoginTest extends BaseTest{
+public class LoginTest extends BaseTest {
 
+
+    String user = "standard_user";
+    String password = "secret_sauce";
 
     @Test
     public void checkCorrectLogin() {
         loginPage.open();
-        loginPage.login("standard_user", "secret_sauce");
+        loginPage.login(user, password);
         assertEquals(
                 productsPage.getTitle(),
                 "Products",
@@ -18,38 +22,38 @@ public class LoginTest extends BaseTest{
     @Test
     public void checkLoginWithEmptyUserName() {
         loginPage.open();
-        loginPage.login("","secret_sauce");
+        loginPage.login("", password);
         assertEquals(loginPage.getError(),
                 "Epic sadface: Username is required",
-                "Expected error: Epic sadface: Username is required");
+                "Incorrect error message");
     }
 
     @Test
     public void checkLoginWithEmptyPassword() {
         loginPage.open();
-        loginPage.login("user-name","");
+        loginPage.login(user, "");
         assertEquals(loginPage.getError(),
                 "Epic sadface: Password is required",
-                "Expected error: Epic sadface: Password is required");
+                "Incorrect error message");
     }
 
     @Test
     public void checkNotCorrectUser() {
         loginPage.open();
-        loginPage.login("11111", "secret_sauce");
+        loginPage.login("11111", password);
         assertEquals(
                 loginPage.getError(),
                 "Epic sadface: Username and password do not match any user in this service",
-                "Expected message - Username and password do not match any user in this service");
+                "Incorrect error message");
     }
 
     @Test
     public void checkNotCorrectLogin() {
         loginPage.open();
-        loginPage.login("standard_user", "11111");
+        loginPage.login(user, "11111");
         assertEquals(
                 loginPage.getError(),
                 "Epic sadface: Username and password do not match any user in this service",
-                "Expected message - Username and password do not match any user in this service");
+                "Incorrect error message");
     }
 }
