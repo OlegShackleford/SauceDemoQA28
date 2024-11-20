@@ -1,5 +1,4 @@
 package tests;
-
 import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 
@@ -10,17 +9,22 @@ public class ProductPageTest extends BaseTest {
     String user = "standard_user";
     String password = "secret_sauce";
 
-    @Test
-    public void checkProductOnaPage() {
+    @Test(testName = "Проверка отображения любого продукта на странице Product",
+            priority = 1,
+            groups = "fast",
+            retryAnalyzer = Retry.class )
+    public void checkProductPage() {
         loginPage.open();
         loginPage.login(user, password);
 
-        String product = productsPage.getProductName("#item_4_title_link");
+        String product = productsPage.getProductName(productName);
         assertEquals(product, productName, "Incorrect product name");
     }
 
-    @Test
-    public void checkAddButton() {
+    @Test(testName = "Проверка кнопки Remove на странице Product",
+            priority = 2,
+            groups = "fast")
+    public void checkRemoveButtonO() {
         /*
         Открыть главную страницу
         Ввести логин и пароль
@@ -33,7 +37,7 @@ public class ProductPageTest extends BaseTest {
         loginPage.login(user, password);
 
         productsPage.clickAddToCartButton(productName);
-        productsPage.clickButtonRemove("#remove-sauce-labs-backpack");
+        productsPage.clickAddToCartButton(productName);
         productsPage.clickShoppingCart();
 
         assertEquals(productsPage.getWebElementsListOfCart().size(),

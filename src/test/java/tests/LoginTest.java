@@ -1,25 +1,26 @@
 package tests;
 
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 
 public class LoginTest extends BaseTest {
 
-
     String user = "standard_user";
     String password = "secret_sauce";
 
-    @Test
+    @Test(testName = "Проверка позитивного логина",
+            priority = 1,retryAnalyzer = Retry.class, groups = "fast")
+    //ретрай вешается на тесты которые работают нестабильно
     public void checkCorrectLogin() {
         loginPage.open();
         loginPage.login(user, password);
-        assertEquals(
-                productsPage.getTitle(),
+        assertEquals(productsPage.getTitle(),
                 "Products",
                 "Переход на страницу не выполнен");
     }
 
-    @Test
+    @Test(testName = "Проверка входа с пустым User Name", priority = 2, groups = "fast")
     public void checkLoginWithEmptyUserName() {
         loginPage.open();
         loginPage.login("", password);
@@ -28,7 +29,7 @@ public class LoginTest extends BaseTest {
                 "Incorrect error message");
     }
 
-    @Test
+    @Test(testName = "Проверка входа с пустым Password", priority = 2, groups = "fast")
     public void checkLoginWithEmptyPassword() {
         loginPage.open();
         loginPage.login(user, "");
@@ -37,17 +38,16 @@ public class LoginTest extends BaseTest {
                 "Incorrect error message");
     }
 
-    @Test
+    @Test(testName = "Проверка входа с не корректным полем User", priority = 2, groups = "fast")
     public void checkNotCorrectUser() {
         loginPage.open();
         loginPage.login("11111", password);
-        assertEquals(
-                loginPage.getError(),
+        assertEquals(loginPage.getError(),
                 "Epic sadface: Username and password do not match any user in this service",
                 "Incorrect error message");
     }
 
-    @Test
+    @Test(testName = "Проверка входа с не корректным полем Password")
     public void checkNotCorrectLogin() {
         loginPage.open();
         loginPage.login(user, "11111");
@@ -56,4 +56,30 @@ public class LoginTest extends BaseTest {
                 "Epic sadface: Username and password do not match any user in this service",
                 "Incorrect error message");
     }
+
+
+    @DataProvider() // Объект тестовых данных для единообразных тестов.
+    public Object[][] loginData() {
+        return new Object[][]{
+                {"", "secret_sauce", "Epic sadface: Username is required"},
+                {"standard_user", "", "Epic sadface: Password is required"},
+                {"standard_user", "123123131", "Epic sadface: Username and password do not match any user in this service"},
+        };
+    }
+
+//    @Test(testName = "Тестовый метод",
+//            description = "Учебный пример использования dataProvider",
+//            dataProvider = "loginData", enabled = true)
+//    // enabled нужен если баг теста будут фиксить позже, поэтому его нужно пропустить
+//    /*
+//    1. В параметр аннотации передаем объект вложенного класса dataProvider с именем класса
+//    2. В параметр метода передаем тестовые данные из loginData
+//    3. Тест заменяет по факту три негативных теста с проверкой разных тестовых данных
+//    4. Нельзя использовать в позитивных сценариях
+//     */
+//    public void test(String user, String password, String expectedError) {
+//        loginPage.open();
+//        loginPage.login(user, password);
+//        assertEquals(loginPage.getError(), expectedError);
+//    }
 }
