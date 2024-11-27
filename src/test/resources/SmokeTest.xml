@@ -3,16 +3,13 @@
 <suite thread-count="2" name="Sauce Demo SmokeTest" parallel="classes">
     <test name="Thread#1">
         <classes>
-            <class name="tests.LoginTest"/>
+            <class name="tests.CheckoutPageTest"/>
         </classes>
 
     </test> <!-- Test -->
     <test name="Thread#2">
         <classes>
             <class name="tests.CartTest"/>
-
-<!--            <class name="tests.LocatorTest"/>-->
-<!--            <class name="tests.ProductPageTest"/>-->
         </classes>
     </test> <!-- Test -->
 </suite>

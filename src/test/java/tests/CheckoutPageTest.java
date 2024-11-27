@@ -1,7 +1,10 @@
 package tests;
+
+import io.qameta.allure.Description;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+
 import static org.testng.Assert.assertEquals;
 
 public class CheckoutPageTest extends BaseTest {
@@ -15,7 +18,8 @@ public class CheckoutPageTest extends BaseTest {
 
     @Test(testName = "Позитивный тест на заполнение трех полей",
             priority = 1,
-            groups = "priority1",retryAnalyzer = Retry.class)
+            groups = "priority1", retryAnalyzer = Retry.class)
+    @Description("Позитивный тест на заполнение трех полей на странице Checkout: Your Information")
     public void checkFullInformation() {
         loginPage.open();
         loginPage.login(loginUser, loginPassword);
@@ -26,7 +30,10 @@ public class CheckoutPageTest extends BaseTest {
         assertEquals(checkoutPage.getTitleOverview(), "Checkout: Overview", "Incorrect text");
     }
 
-    @Test(testName = "Проверка название товара, цены и общей стоимости", priority = 1, groups = "priority1")
+    @Test(testName = "Проверка название товара, цены и общей стоимости",
+            priority = 1,
+            groups = "fast")
+    @Description("Проверка название товара, цены и общей стоимости товара")
     public void checkOverviewOneProductNameAndPrice() {
         /*
         1.Открыть страницу Login
@@ -55,10 +62,38 @@ public class CheckoutPageTest extends BaseTest {
         softAssert.assertAll();
     }
 
+    @Test(testName = "Проверка сообщения об успешном завершении покупки",
+            priority = 1,
+            groups = "fast")
+    @Description("Проверка сообщения об успешном завершении покупки")
+    public void CheckCompleteCheckout() {
+        /*
+        1.Открыть страницу Login
+        2.Ввести логин и пароль
+        3.Добавить продукт в корзину
+        4.Переходим на страницу Your Information и заполняем поля
+        5.Переходим на страницу OverView
+        6.Нажимаем кнопку Finish
+        7.Проверяем сообщение об успешной покупке
+         */
+        loginPage.open();
+        loginPage.login(loginUser, loginPassword);
+        productsPage.clickAddToCartButton("Sauce Labs Onesie");
+        checkoutPage.openPageCheckOutInfo();
+        checkoutPage.inputFullInfo(firstName, lastName, zipcode);
+        checkoutPage.openPageCheckOutOverview();
+        checkoutPage.clickButtonFinish();
+        assertEquals(checkoutPage.getCompleteMessage(),
+                "Than you for your order!",
+                "Incorrect message");
+//ОШИБКА ТУТ
+    }
+
     @Test(testName = "Негативные тесты страницы Checkout:info",
             description = "Тесты: пустое поле user,password,zipcode",
             priority = 2, groups = "fast",
             dataProvider = "inputData")
+    @Description("Негативные тесты страницы Checkout:info. Тестирование пустое поле user, password, zipcode")
     public void checkIncorrectInputInfo(String user, String lastName, String zipcode, String errorMessage) {
         /*
         1.Открыть страницу Login

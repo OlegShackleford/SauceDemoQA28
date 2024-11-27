@@ -1,5 +1,6 @@
 package tests;
 
+import io.qameta.allure.*;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
@@ -11,6 +12,17 @@ public class LoginTest extends BaseTest {
 
     @Test(testName = "Проверка позитивного логина",
             priority = 1,retryAnalyzer = Retry.class, groups = "fast")
+    @Epic("Модуль логина интернет-магазина") //Глобальная задача
+    @Feature("TMS-25") // подгруппа эпика
+    @Story("Три вопроса(кто я, что я, чего хочу")
+    @Severity(SeverityLevel.CRITICAL)
+    @Link("Ссылка на требования")
+    @Owner("Автор теста")
+    @Issue("Ссылка на баг-репорт систему")//
+    @TmsLink("Ссылка на тест-кейс")//ссылки можно указывать в алюр.пропертис
+    @Description("Проверка входа в магазин юзера с позитивным входом")
+    //Подробное описание, это важно. Все остальное нет
+    @Flaky //Если тест нестабильный
     //ретрай вешается на тесты которые работают нестабильно
     public void checkCorrectLogin() {
         loginPage.open();
@@ -21,6 +33,7 @@ public class LoginTest extends BaseTest {
     }
 
     @Test(testName = "Проверка входа с пустым User Name", priority = 2, groups = "fast")
+    @Description("Проверка входа с пустым User Name")
     public void checkLoginWithEmptyUserName() {
         loginPage.open();
         loginPage.login("", password);
@@ -30,6 +43,7 @@ public class LoginTest extends BaseTest {
     }
 
     @Test(testName = "Проверка входа с пустым Password", priority = 2, groups = "fast")
+    @Description("Проверка входа с пустым Password")
     public void checkLoginWithEmptyPassword() {
         loginPage.open();
         loginPage.login(user, "");
@@ -39,6 +53,7 @@ public class LoginTest extends BaseTest {
     }
 
     @Test(testName = "Проверка входа с не корректным полем User", priority = 2, groups = "fast")
+    @Description("Проверка входа с не корректным полем User")
     public void checkNotCorrectUser() {
         loginPage.open();
         loginPage.login("11111", password);
@@ -48,6 +63,7 @@ public class LoginTest extends BaseTest {
     }
 
     @Test(testName = "Проверка входа с не корректным полем Password")
+    @Description("Проверка входа с не корректным полем Password")
     public void checkNotCorrectLogin() {
         loginPage.open();
         loginPage.login(user, "11111");

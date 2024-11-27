@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -15,17 +16,31 @@ public class CheckoutPage extends BasePage {
     private final String PATTERN_PRODUCT_PRICE = "//div[text() = '%s']/ancestor::div[@class = 'cart_item']" +
             "//div[@class = 'inventory_item_price']";
     private final By TOTAL_PRODUCT_PRICE = By.xpath("//div[@class = 'summary_total_label']");
+    private final By COMPLETE_MESSAGE = By.xpath("//h2[@class = 'complete-header']");
 
+    @Step("Получение сообщения об успешной покупке")
+    public String getCompleteMessage(){
+        return driver.findElement(COMPLETE_MESSAGE).getText();
+    }
+
+    @Step("Нажатие на клавишу Finish")
+    public void clickButtonFinish(){
+        driver.findElement(By.xpath("//button[@id = 'finish']")).click();
+    }
+
+    @Step("Получение название продукта")
     public String getProductName(String product) {
         By xPathOfProductName = By.xpath(String.format(PATTERN_PRODUCT_NAME, product));
         return driver.findElement(xPathOfProductName).getText();
     }
 
+    @Step("Получение цены продукта")
     public String getProductPrice(String product) {
         By xPathOfProductPrice = By.xpath(String.format(PATTERN_PRODUCT_PRICE, product));
         return driver.findElement(xPathOfProductPrice).getText();
     }
 
+    @Step("Получение общей стоимости")
     public String getTotalPrice() {
         String totalText = driver.findElement(TOTAL_PRODUCT_PRICE).getText();
         return totalText.replace("Total: $","");
@@ -35,26 +50,31 @@ public class CheckoutPage extends BasePage {
         return driver.findElement(TITLE_OVERVIEW).getText();
     }
 
+    @Step("Получение сообщения об ошибке")
     public String getErrorMessage() {
         return driver.findElement(ERROR_MESSAGE).getText();
     }
 
+    @Step("Открытие страницы CheckOut:Info")
     public void openPageCheckOutInfo() {
         driver.get("https://www.saucedemo.com/checkout-step-one.html");
     }
 
+    @Step("Открытие страницы CheckOut:Overview")
     public void openPageCheckOutOverview() {
         driver.get("https://www.saucedemo.com/checkout-step-two.html");
     }
 
+    @Step("Нажатие на клавишу Continue")
     public void clickToButtonContinue() {
         driver.findElement(CONTINUE_BUTTON).click();
     }
 
-    public void inputFullInfo(String firsName, String lastname, String zipcode) {
-        driver.findElement(FIRST_NAME_INPUT).sendKeys(firsName);
-        driver.findElement(LAST_NAME_INPUT).sendKeys(lastname);
-        driver.findElement(ZIP_Postal_CODE).sendKeys(zipcode);
+    @Step("Ввод всех данных покупателя: Имя {firstName},Фамилия {lastname},ZipCode {zipCode}")
+    public void inputFullInfo(String firstName, String lastName, String zipCode) {
+        driver.findElement(FIRST_NAME_INPUT).sendKeys(firstName);
+        driver.findElement(LAST_NAME_INPUT).sendKeys(lastName);
+        driver.findElement(ZIP_Postal_CODE).sendKeys(zipCode);
     }
 
     public CheckoutPage(WebDriver driver) {

@@ -1,4 +1,5 @@
 package tests;
+import io.qameta.allure.Description;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import static org.testng.Assert.assertEquals;
@@ -12,6 +13,7 @@ public class CartTest extends BaseTest {
     SoftAssert softAssert = new SoftAssert();
 
     @Test(testName = "Проверка одного продукта в корзине", priority = 1, groups = "fast")
+    @Description("Проверка одного продукта в корзине")
     public void checkAddOneProductToCart() {
         loginPage.open();
         loginPage.login(user, password);
@@ -24,6 +26,7 @@ public class CartTest extends BaseTest {
     }
 
     @Test(testName = "Проверка двух товаров в корзине", priority = 2, groups = "fast")
+    @Description("Проверка двух товаров в корзине")
     public void checkAddTwoProductToCart() {
         loginPage.open();
         loginPage.login(user, password);
@@ -46,6 +49,7 @@ public class CartTest extends BaseTest {
     }
 
     @Test(testName = "Проверка удаления продукта из корзины", priority = 2, groups = "slow")
+    @Description("Проверка удаления продукта из корзины")
     public void checkRemoveProductFromCart() {
         loginPage.open();
         loginPage.login(user, password);
@@ -55,7 +59,7 @@ public class CartTest extends BaseTest {
 
         cartPage.clickButtonRemove(productNameOne);
 
-        assertEquals(cartPage.getWebElementsListOfCart().size(),
+        assertEquals(cartPage.getWebElementsListOfCart().size(), // Можно проверить через assertThat isEmpty
                 0,
                 "If expected size > 0, cart isnt empty");
     }
@@ -63,6 +67,7 @@ public class CartTest extends BaseTest {
     @Test(testName = "Проверка функции продолжить покупки",
             description = "Переход из корзины на страницу Product",
             priority = 2, groups = "fast")
+    @Description("Переход из корзины на страницу Product")
     public void checkButtonContinueShopping() {
         /*
         Открыть главную страницу

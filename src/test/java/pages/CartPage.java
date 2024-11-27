@@ -1,4 +1,5 @@
 package pages;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -20,11 +21,12 @@ public class CartPage extends BasePage {
         super(driver);
     }
 
+    @Step("Получение названия продукта {product}")
     public String getProductName(String product) {
         By xPathOfProductPrice = By.xpath(String.format(PATTERN_OF_PRODUCT_NAME, product)); // Создал путь используя формат
         return driver.findElement(xPathOfProductPrice).getText(); // Поиск элемента по пути, и получение названия
     }
-
+    @Step("Получение цены продукта {product}")
     public String getProductPrice(String product) {
         By xPathOfProductPrice = By.xpath(String.format(PATTERN_OF_PRODUCT_PRICE, product));
         return driver.findElement(xPathOfProductPrice).getText();
@@ -38,10 +40,12 @@ public class CartPage extends BasePage {
         driver.findElement(CHECKOUT_BUTTON).click();
     }
 
+    @Step("Нажатие на кнопку Continue")
     public void clickContinueShoppingButton() {
         driver.findElement(CONTINUE_SHOPPING_BUTTON).click();
     }
 
+    @Step("Нажатие на кнопку Remove")
     public void clickButtonRemove(String product) {
         By removeFromCard = By.xpath(String.format(REMOVE_PRODUCT_PATTERN, product));
         driver.findElement(removeFromCard).click();

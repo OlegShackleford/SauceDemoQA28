@@ -1,4 +1,5 @@
 package tests;
+import io.qameta.allure.Description;
 import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 
@@ -13,6 +14,7 @@ public class ProductPageTest extends BaseTest {
             priority = 1,
             groups = "fast",
             retryAnalyzer = Retry.class )
+    @Description("Проверка отображения любого продукта на странице Product")
     public void checkProductPage() {
         loginPage.open();
         loginPage.login(user, password);
@@ -24,6 +26,7 @@ public class ProductPageTest extends BaseTest {
     @Test(testName = "Проверка кнопки Remove на странице Product",
             priority = 2,
             groups = "fast")
+    @Description("Проверка кнопки Remove на странице Product")
     public void checkRemoveButtonO() {
         /*
         Открыть главную страницу

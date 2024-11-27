@@ -2,26 +2,10 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite thread-count="2" name="Sauce Demo SmokeTest" parallel="classes">
     <test name="Thread#1">
+        <parameter name="browser" value="edge"></parameter>
         <classes>
             <class name="tests.LoginTest"/>
-            <parameter name="browser" value="edge"></parameter>
-        </classes>
-    </test> <!-- Test -->
-    <test name="Thread#2">
-        <classes>
             <class name="tests.CartTest"/>
-            <parameter name="browser" value="chrome"></parameter>
-<!--            <class name="tests.LocatorTest"/>-->
-<!--            <class name="tests.ProductPageTest"/>-->
         </classes>
-    </test>
-    <test name="priority">
-        <groups>
-            <run>
-                <include name="1"/>
-                <exclude name="2">
-                </exclude>
-            </run>
-        </groups>
     </test> <!-- Test -->
 </suite>
