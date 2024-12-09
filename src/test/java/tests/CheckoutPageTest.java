@@ -84,7 +84,7 @@ public class CheckoutPageTest extends BaseTest {
         checkoutPage.openPageCheckOutOverview();
         checkoutPage.clickButtonFinish();
         assertEquals(checkoutPage.getCompleteMessage(),
-                "Than you for your order!",
+                "Thank you for your order!",
                 "Incorrect message");
 //ОШИБКА ТУТ
     }
