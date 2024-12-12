@@ -27,8 +27,8 @@ public class BaseTest {
     ProductsPage productsPage;
     CartPage cartPage;
     CheckoutPage checkoutPage;
-    String user = System.getProperty("user",PropertyReader.getProperty("user"));
-    String password = System.getProperty("user",PropertyReader.getProperty("password"));
+    String user = System.getProperty("user", PropertyReader.getProperty("user"));
+    String password = System.getProperty("password", PropertyReader.getProperty("password"));
 
     @Parameters({"browser"}) // Задаем параметр, который будет открывать выбранный браузер по умолчанию.
     @BeforeMethod
