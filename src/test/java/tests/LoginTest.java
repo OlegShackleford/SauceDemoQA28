@@ -1,14 +1,12 @@
 package tests;
 
 import io.qameta.allure.*;
+import lombok.extern.log4j.Log4j2;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
-
+@Log4j2
 public class LoginTest extends BaseTest {
-
-    String user = "standard_user";
-    String password = "secret_sauce";
 
     @Test(testName = "Проверка позитивного логина",
             priority = 1,retryAnalyzer = Retry.class, groups = "fast")
@@ -25,6 +23,7 @@ public class LoginTest extends BaseTest {
     @Flaky //Если тест нестабильный
     //ретрай вешается на тесты которые работают нестабильно
     public void checkCorrectLogin() {
+        System.out.println(System.getProperty("log4j.configurationFile"));
         loginPage.open();
         loginPage.login(user, password);
         assertEquals(productsPage.getTitle(),
@@ -35,6 +34,7 @@ public class LoginTest extends BaseTest {
     @Test(testName = "Проверка входа с пустым User Name", priority = 2, groups = "fast")
     @Description("Проверка входа с пустым User Name")
     public void checkLoginWithEmptyUserName() {
+
         loginPage.open();
         loginPage.login("", password);
         assertEquals(loginPage.getError(),

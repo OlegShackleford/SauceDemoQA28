@@ -9,8 +9,6 @@ import static org.testng.Assert.assertEquals;
 
 public class CheckoutPageTest extends BaseTest {
 
-    public String loginUser = "standard_user";
-    public String loginPassword = "secret_sauce";
     public String firstName = "Vlad";
     public String lastName = "Tepes";
     public String zipcode = "010012";
@@ -22,7 +20,7 @@ public class CheckoutPageTest extends BaseTest {
     @Description("Позитивный тест на заполнение трех полей на странице Checkout: Your Information")
     public void checkFullInformation() {
         loginPage.open();
-        loginPage.login(loginUser, loginPassword);
+        loginPage.login(user,password);
         checkoutPage.openPageCheckOutInfo();
         checkoutPage.inputFullInfo(firstName, lastName, zipcode);
         checkoutPage.clickToButtonContinue();
@@ -44,7 +42,7 @@ public class CheckoutPageTest extends BaseTest {
         6.Сверяем Название продукта, цену и общую цену с налогом
          */
         loginPage.open();
-        loginPage.login(loginUser, loginPassword);
+        loginPage.login(user,password);
         productsPage.clickAddToCartButton("Sauce Labs Onesie");
         checkoutPage.openPageCheckOutInfo();
         checkoutPage.inputFullInfo(firstName, lastName, zipcode);
@@ -77,7 +75,7 @@ public class CheckoutPageTest extends BaseTest {
         7.Проверяем сообщение об успешной покупке
          */
         loginPage.open();
-        loginPage.login(loginUser, loginPassword);
+        loginPage.login(user,password);
         productsPage.clickAddToCartButton("Sauce Labs Onesie");
         checkoutPage.openPageCheckOutInfo();
         checkoutPage.inputFullInfo(firstName, lastName, zipcode);
@@ -94,7 +92,7 @@ public class CheckoutPageTest extends BaseTest {
             priority = 2, groups = "fast",
             dataProvider = "inputData")
     @Description("Негативные тесты страницы Checkout:info. Тестирование пустое поле user, password, zipcode")
-    public void checkIncorrectInputInfo(String user, String lastName, String zipcode, String errorMessage) {
+    public void checkIncorrectInputInfo(String userName, String lastName, String zipcode, String errorMessage) {
         /*
         1.Открыть страницу Login
         2.Ввести логин и пароль
@@ -104,9 +102,9 @@ public class CheckoutPageTest extends BaseTest {
         6.Сверяем сообщения об ошибках
          */
         loginPage.open();
-        loginPage.login(loginUser, loginPassword);
+        loginPage.login(user,password);
         checkoutPage.openPageCheckOutInfo();
-        checkoutPage.inputFullInfo(user, lastName, zipcode);
+        checkoutPage.inputFullInfo(userName, lastName, zipcode);
         checkoutPage.clickToButtonContinue();
         assertEquals(checkoutPage.getErrorMessage(), errorMessage);
     }

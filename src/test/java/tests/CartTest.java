@@ -8,8 +8,6 @@ public class CartTest extends BaseTest {
 
     String productNameOne = "Sauce Labs Bike Light";
     String productNameTwo = "Sauce Labs Fleece Jacket";
-    String user = "standard_user";
-    String password = "secret_sauce";
     SoftAssert softAssert = new SoftAssert();
 
     @Test(testName = "Проверка одного продукта в корзине", priority = 1, groups = "fast")

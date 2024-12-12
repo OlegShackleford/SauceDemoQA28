@@ -2,13 +2,11 @@ package tests;
 import io.qameta.allure.Description;
 import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
+import lombok.extern.log4j.Log4j2;
 
 public class ProductPageTest extends BaseTest {
 
-
     String productName = "Sauce Labs Backpack";
-    String user = "standard_user";
-    String password = "secret_sauce";
 
     @Test(testName = "Проверка отображения любого продукта на странице Product",
             priority = 1,

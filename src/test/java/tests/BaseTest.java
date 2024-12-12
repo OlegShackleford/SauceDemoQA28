@@ -15,6 +15,7 @@ import pages.CheckoutPage;
 import pages.LoginPage;
 import pages.ProductsPage;
 import utils.AllureUtils;
+import utils.PropertyReader;
 
 import java.time.Duration;
 
@@ -26,6 +27,8 @@ public class BaseTest {
     ProductsPage productsPage;
     CartPage cartPage;
     CheckoutPage checkoutPage;
+    String user = System.getProperty("user",PropertyReader.getProperty("user"));
+    String password = System.getProperty("user",PropertyReader.getProperty("password"));
 
     @Parameters({"browser"}) // Задаем параметр, который будет открывать выбранный браузер по умолчанию.
     @BeforeMethod
@@ -62,6 +65,5 @@ public class BaseTest {
         if (driver != null) {
             driver.quit();
         }
-
     }
 }
