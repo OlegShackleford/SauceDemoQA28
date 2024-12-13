@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.List;
 import static pages.CartPage.CART_LIST;
+
 @Log4j2
 public class ProductsPage extends BasePage {
 
